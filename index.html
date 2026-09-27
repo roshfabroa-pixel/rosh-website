@@ -537,6 +537,14 @@
     text-align:center;
     border-top:1px solid var(--line);
   }
+  .secret-link{
+    color:var(--bg);
+    text-decoration:none;
+    transition:color .3s ease;
+  }
+  .secret-link:hover, .secret-link:focus{
+    color:var(--amber-strong);
+  }
 
   /* ---------- small-phone tightening ---------- */
   @media (max-width:380px){
@@ -716,7 +724,7 @@
   </div>
 </section>
 
-<footer>lifeofachii · made with ☕ and a little bit of debugging</footer>
+<footer>lifeofachii · made with ☕ and a little bit of debugging <a href="rent.html" class="secret-link">rent me?</a></footer>
 
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" id="lightbox-close" aria-label="Close">✕</button>
