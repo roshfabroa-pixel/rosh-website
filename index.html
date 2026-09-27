@@ -537,8 +537,24 @@
     text-align:center;
     border-top:1px solid var(--line);
   }
+  .secret-wrap{
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+  }
+  .secret-arrows{
+    color:var(--amber);
+    opacity:.4;
+    letter-spacing:-.1em;
+    animation:arrow-nudge 1.6s ease-in-out infinite;
+  }
+  @keyframes arrow-nudge{
+    0%,100%{ opacity:.25; transform:translateX(0); }
+    50%{ opacity:.65; transform:translateX(3px); }
+  }
+  @media (prefers-reduced-motion:reduce){ .secret-arrows{animation:none; opacity:.4;} }
   .secret-link{
-    color:var(--bg);
+    color:var(--ink-faint);
     text-decoration:none;
     transition:color .3s ease;
   }
@@ -724,7 +740,7 @@
   </div>
 </section>
 
-<footer>lifeofachii · made with ☕ and a little bit of debugging <a href="rent.html" class="secret-link">rent me?</a></footer>
+<footer>lifeofachii · made with ☕ and a little bit of debugging <span class="secret-wrap"><span class="secret-arrows">›››</span> <a href="rent.html" class="secret-link">rent me?</a></span></footer>
 
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" id="lightbox-close" aria-label="Close">✕</button>
