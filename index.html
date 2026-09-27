@@ -4,6 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Hi, I'm Rosh</title>
+<meta name="description" content="Rosh — barista by day, Virtual Assistant by trade. Coffee, tech support, and a few snapshots of life in between.">
+<meta name="theme-color" content="#1B140F">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hi, I'm Rosh">
+<meta property="og:description" content="Barista by day, Virtual Assistant by trade. Coffee, tech support, and a few snapshots of life in between.">
+<meta property="og:url" content="https://rosh-website-ten.vercel.app/">
+<meta property="og:image" content="https://rosh-website-ten.vercel.app/imgs/img7-hilltop.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hi, I'm Rosh">
+<meta name="twitter:description" content="Barista by day, Virtual Assistant by trade. Coffee, tech support, and a few snapshots of life in between.">
+<meta name="twitter:image" content="https://rosh-website-ten.vercel.app/imgs/img7-hilltop.jpg">
+
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="imgs/img7-hilltop.jpg">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -147,6 +163,20 @@
     .brand-text{display:none;}
     .navlinks a{padding:6px 7px; font-size:10.5px;}
   }
+
+  .theme-toggle{
+    flex-shrink:0;
+    width:34px;height:34px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:var(--bg-panel);
+    color:var(--ink-soft);
+    font-size:14px;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  .theme-toggle:hover{border-color:var(--amber); color:var(--amber-strong);}
 
   .wrap{max-width:900px;margin-inline:auto;padding-inline:20px;}
   section{padding-block:72px;}
@@ -432,6 +462,28 @@
     border:1px solid rgba(255,255,255,.25);
     color:#fff; font-size:18px; cursor:pointer;
   }
+  .lightbox-nav{
+    position:absolute; top:50%; transform:translateY(-50%);
+    width:44px;height:44px;border-radius:50%;
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.25);
+    color:#fff; font-size:20px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .lightbox-nav:hover{background:rgba(255,255,255,.22);}
+  .lightbox-prev{left:16px;}
+  .lightbox-next{right:16px;}
+  @media (max-width:520px){
+    .lightbox-nav{width:38px;height:38px;font-size:17px;}
+    .lightbox-prev{left:8px;}
+    .lightbox-next{right:8px;}
+  }
+  .lightbox-count{
+    position:absolute; bottom:18px; left:50%; transform:translateX(-50%);
+    font-family:"JetBrains Mono", monospace;
+    font-size:12px; letter-spacing:.08em;
+    color:rgba(255,255,255,.7);
+  }
 
   /* ---------- links / contact ---------- */
   .links{
@@ -497,6 +549,16 @@
 </style>
 </head>
 <body>
+<script>
+  (function(){
+    try {
+      var saved = localStorage.getItem('rosh-theme');
+      if (saved === 'dark' || saved === 'light') {
+        document.documentElement.setAttribute('data-theme', saved);
+      }
+    } catch(e){}
+  })();
+</script>
 
 <nav class="topnav">
   <a class="brand" href="#top"><span class="bean">☕</span><span class="brand-text">lifeofachii</span></a>
@@ -506,6 +568,7 @@
     <li><a href="#gallery" data-nav>Gallery</a></li>
     <li><a href="#contact" data-nav>Contact</a></li>
   </ul>
+  <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark or light theme">☀︎</button>
 </nav>
 
 <div id="top"></div>
@@ -657,11 +720,32 @@
 
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" id="lightbox-close" aria-label="Close">✕</button>
+  <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Previous photo">‹</button>
   <img id="lightbox-img" src="" alt="Full size photo">
+  <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Next photo">›</button>
+  <span class="lightbox-count" id="lightbox-count"></span>
 </div>
 
 <script>
 (function(){
+  // theme toggle
+  var themeBtn = document.getElementById('theme-toggle');
+  function currentTheme(){
+    var attr = document.documentElement.getAttribute('data-theme');
+    if (attr === 'dark' || attr === 'light') return attr;
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  function syncIcon(){
+    themeBtn.textContent = currentTheme() === 'dark' ? '☀︎' : '☾';
+  }
+  syncIcon();
+  themeBtn.addEventListener('click', function(){
+    var next = currentTheme() === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('rosh-theme', next); } catch(e){}
+    syncIcon();
+  });
+
   // typewriter
   var phrases = ["barista by day.", "tech support by trade.", "coffee & code, one shift at a time."];
   var el = document.getElementById('typewriter');
@@ -740,16 +824,32 @@
   // lightbox
   var lightbox = document.getElementById('lightbox');
   var lightboxImg = document.getElementById('lightbox-img');
-  document.querySelectorAll('#gallery-grid .frame img').forEach(function(img){
+  var lightboxCount = document.getElementById('lightbox-count');
+  var galleryImgs = Array.prototype.slice.call(document.querySelectorAll('#gallery-grid .frame img'));
+  var currentIndex = 0;
+
+  function showPhoto(i){
+    currentIndex = (i + galleryImgs.length) % galleryImgs.length;
+    lightboxImg.src = galleryImgs[currentIndex].src;
+    lightboxCount.textContent = (currentIndex + 1) + ' / ' + galleryImgs.length;
+  }
+  galleryImgs.forEach(function(img, i){
     img.addEventListener('click', function(){
-      lightboxImg.src = img.src;
+      showPhoto(i);
       lightbox.classList.add('open');
     });
   });
   function closeLightbox(){ lightbox.classList.remove('open'); lightboxImg.src=''; }
   document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+  document.getElementById('lightbox-prev').addEventListener('click', function(e){ e.stopPropagation(); showPhoto(currentIndex - 1); });
+  document.getElementById('lightbox-next').addEventListener('click', function(e){ e.stopPropagation(); showPhoto(currentIndex + 1); });
   lightbox.addEventListener('click', function(e){ if (e.target === lightbox) closeLightbox(); });
-  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeLightbox(); });
+  document.addEventListener('keydown', function(e){
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') showPhoto(currentIndex - 1);
+    if (e.key === 'ArrowRight') showPhoto(currentIndex + 1);
+  });
 })();
 </script>
 </body>
