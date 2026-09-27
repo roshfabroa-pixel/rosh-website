@@ -409,6 +409,37 @@
     margin-top:2px;
   }
 
+  /* ---------- hire ---------- */
+  .service-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin-top:28px;
+  }
+  @media (max-width:560px){ .service-grid{grid-template-columns:1fr;} }
+  .service-card{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:20px;
+  }
+  .service-tag{
+    font-family:"JetBrains Mono", monospace;
+    font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--teal-strong);
+    margin-bottom:8px;
+    display:block;
+  }
+  .service-card h3{margin:0 0 6px;font-size:1.1rem;}
+  .service-card p{margin:0;color:var(--ink-soft);font-size:.94rem;line-height:1.55;}
+
+  .hire-cta{
+    margin-top:28px;
+    padding-top:24px;
+    border-top:1px dashed var(--line);
+  }
+  .hire-cta p{color:var(--ink-soft); margin:0 0 16px;}
+
   /* ---------- gallery ---------- */
   .gallery{
     display:grid;
@@ -601,6 +632,7 @@
   <ul class="navlinks">
     <li><a href="#story" data-nav>Story</a></li>
     <li><a href="#life" data-nav><span>The </span>Grind</a></li>
+    <li><a href="#hire" data-nav>Hire</a></li>
     <li><a href="#gallery" data-nav>Gallery</a></li>
     <li><a href="#contact" data-nav>Contact</a></li>
   </ul>
@@ -711,6 +743,49 @@
     <p class="bio" style="margin-top:20px;">
       Off the clock, I'm usually deep in a game with a controller in hand, decompressing the same way other people take a walk — and somewhere between shifts I picked up a habit of turning skin into a sketchbook, with each tattoo marking a chapter I didn't want to forget. On top of all that, I moonlight as a self-taught web builder, putting together sites like this one whenever I get the itch to make something — this page included.
     </p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="hire">
+  <div class="wrap reveal">
+    <p class="section-kicker">actually, professionally</p>
+    <h2 class="section-title">Hire me</h2>
+    <p class="bio">
+      Away from the coffee jokes — I take on Virtual Assistant and tech support work. If you need someone reliable to handle the admin grind or fix what's broken, that's the other half of what I do.
+    </p>
+
+    <div class="service-grid">
+      <div class="service-card">
+        <span class="service-tag">📥 admin</span>
+        <h3>Inbox &amp; Calendar Management</h3>
+        <p>Email triage, scheduling, and keeping your day organized so you don't have to.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-tag">🛠️ support</span>
+        <h3>Tech Troubleshooting &amp; Setup</h3>
+        <p>Software issues, account setup, device problems — the stuff that eats your afternoon.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-tag">📊 data</span>
+        <h3>Data Entry &amp; Admin Support</h3>
+        <p>Spreadsheets, research, documentation — detail-heavy work done carefully.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-tag">💬 service</span>
+        <h3>Customer Support</h3>
+        <p>Chat and email support with the same patience I bring to a rush-hour bar.</p>
+      </div>
+    </div>
+
+    <div class="hire-cta">
+      <p>Rates depend on scope and hours — message me with what you need and I'll send a quote.</p>
+      <div class="links">
+        <a class="pill" href="https://wa.me/qr/ABJ56K4BOL6LD1" target="_blank" rel="noopener"><span class="dot"></span>Message me on WhatsApp</a>
+        <a class="pill" href="https://www.linkedin.com/in/roshfabroa/" target="_blank" rel="noopener"><span class="dot"></span>Connect on LinkedIn</a>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -827,7 +902,7 @@
 
   // active nav highlight
   var navLinks = document.querySelectorAll('[data-nav]');
-  var sections = ['story','life','gallery','contact'].map(function(id){ return document.getElementById(id); });
+  var sections = ['story','life','hire','gallery','contact'].map(function(id){ return document.getElementById(id); });
   if ('IntersectionObserver' in window) {
     var navIo = new IntersectionObserver(function(entries){
       entries.forEach(function(entry){
@@ -890,5 +965,6 @@
   });
 })();
 </script>
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
