@@ -440,6 +440,71 @@
   }
   .hire-cta p{color:var(--ink-soft); margin:0 0 16px;}
 
+  /* ---------- guestbook ---------- */
+  .guestbook-form{
+    margin-top:24px;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:22px;
+  }
+  .gb-row{margin-bottom:12px;}
+  .gb-row:last-of-type{margin-bottom:16px;}
+  .guestbook-form input,
+  .guestbook-form textarea{
+    width:100%;
+    font-family:"Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+    font-size:.98rem;
+    color:var(--ink);
+    background:var(--bg);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:12px 14px;
+    resize:vertical;
+  }
+  .guestbook-form input:focus,
+  .guestbook-form textarea:focus{
+    outline:2px solid var(--amber);
+    outline-offset:1px;
+  }
+  .gb-submit{border:none; cursor:pointer;}
+  .gb-submit:disabled{opacity:.6; cursor:default; transform:none;}
+  .gb-status{
+    margin:10px 0 0;
+    font-size:.88rem;
+    color:var(--ink-soft);
+    min-height:1.2em;
+  }
+  .gb-status.error{color:#B8493A;}
+
+  .guestbook-list{
+    display:grid;
+    gap:12px;
+    margin-top:24px;
+  }
+  .gb-entry{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:16px 18px;
+  }
+  .gb-entry-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:10px;
+    margin-bottom:6px;
+  }
+  .gb-entry-name{font-weight:700; font-size:.98rem;}
+  .gb-entry-date{
+    font-family:"JetBrains Mono", monospace;
+    font-size:.75rem;
+    color:var(--ink-faint);
+    white-space:nowrap;
+  }
+  .gb-entry-msg{color:var(--ink-soft); font-size:.94rem; line-height:1.55; margin:0; overflow-wrap:anywhere;}
+  .gb-loading, .gb-empty{color:var(--ink-faint); font-size:.92rem;}
+
   /* ---------- gallery ---------- */
   .gallery{
     display:grid;
@@ -809,6 +874,31 @@
 
 <hr class="divider">
 
+<section id="guestbook">
+  <div class="wrap reveal">
+    <p class="section-kicker">leave a note</p>
+    <h2 class="section-title">Guestbook</h2>
+    <p class="bio">Scrolled this far? Leave something behind — a hello, a joke, whatever.</p>
+
+    <form class="guestbook-form" id="guestbook-form">
+      <div class="gb-row">
+        <input type="text" id="gb-name" name="name" placeholder="Your name" maxlength="40" required>
+      </div>
+      <div class="gb-row">
+        <textarea id="gb-message" name="message" placeholder="Say something..." maxlength="300" rows="3" required></textarea>
+      </div>
+      <button type="submit" class="pill gb-submit" id="gb-submit"><span class="dot"></span>Sign the guestbook</button>
+      <p class="gb-status" id="gb-status"></p>
+    </form>
+
+    <div class="guestbook-list" id="guestbook-list">
+      <p class="gb-loading" id="gb-loading">Loading notes…</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
 <section id="contact">
   <div class="wrap reveal">
     <p class="section-kicker">say hi</p>
@@ -917,6 +1007,118 @@
     }, {rootMargin:'-45% 0px -45% 0px'});
     sections.forEach(function(s){ if (s) navIo.observe(s); });
   }
+
+  // guestbook
+  (function(){
+    var SUPABASE_URL = 'https://zpzmfetjehntxfxksbbc.supabase.co';
+    var SUPABASE_KEY = 'sb_publishable_C0olLkW5eM1wOn4P2QBFoQ_fWJf-jxv';
+    var endpoint = SUPABASE_URL + '/rest/v1/guestbook';
+    var listEl = document.getElementById('guestbook-list');
+    var loadingEl = document.getElementById('gb-loading');
+    var form = document.getElementById('guestbook-form');
+    var nameInput = document.getElementById('gb-name');
+    var msgInput = document.getElementById('gb-message');
+    var submitBtn = document.getElementById('gb-submit');
+    var statusEl = document.getElementById('gb-status');
+    if (!form) return;
+
+    function timeAgo(iso){
+      var diff = Math.max(0, (Date.now() - new Date(iso).getTime()) / 1000);
+      if (diff < 60) return 'just now';
+      if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
+      if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
+      if (diff < 2592000) return Math.floor(diff / 86400) + 'd ago';
+      return new Date(iso).toLocaleDateString(undefined, {month:'short', day:'numeric', year:'numeric'});
+    }
+
+    function renderEntries(entries){
+      listEl.innerHTML = '';
+      if (!entries.length) {
+        var empty = document.createElement('p');
+        empty.className = 'gb-empty';
+        empty.textContent = 'No notes yet — be the first.';
+        listEl.appendChild(empty);
+        return;
+      }
+      entries.forEach(function(entry){
+        var card = document.createElement('div');
+        card.className = 'gb-entry';
+
+        var head = document.createElement('div');
+        head.className = 'gb-entry-head';
+
+        var name = document.createElement('span');
+        name.className = 'gb-entry-name';
+        name.textContent = entry.name;
+
+        var date = document.createElement('span');
+        date.className = 'gb-entry-date';
+        date.textContent = timeAgo(entry.created_at);
+
+        head.appendChild(name);
+        head.appendChild(date);
+
+        var msg = document.createElement('p');
+        msg.className = 'gb-entry-msg';
+        msg.textContent = entry.message;
+
+        card.appendChild(head);
+        card.appendChild(msg);
+        listEl.appendChild(card);
+      });
+    }
+
+    function loadEntries(){
+      fetch(endpoint + '?select=name,message,created_at&order=created_at.desc&limit=50', {
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+      })
+        .then(function(res){ if (!res.ok) throw new Error('load failed'); return res.json(); })
+        .then(renderEntries)
+        .catch(function(){
+          listEl.innerHTML = '';
+          var err = document.createElement('p');
+          err.className = 'gb-empty';
+          err.textContent = 'Couldn’t load notes right now — try refreshing.';
+          listEl.appendChild(err);
+        });
+    }
+    loadEntries();
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var name = nameInput.value.trim();
+      var message = msgInput.value.trim();
+      if (!name || !message) return;
+
+      submitBtn.disabled = true;
+      statusEl.textContent = 'Posting...';
+      statusEl.className = 'gb-status';
+
+      fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_KEY,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({ name: name, message: message })
+      })
+        .then(function(res){
+          if (!res.ok) throw new Error('post failed');
+          form.reset();
+          statusEl.textContent = 'Thanks for signing!';
+          loadEntries();
+        })
+        .catch(function(){
+          statusEl.textContent = 'Something went wrong — try again in a moment.';
+          statusEl.className = 'gb-status error';
+        })
+        .finally(function(){
+          submitBtn.disabled = false;
+        });
+    });
+  })();
 
   // email copy
   var btn = document.getElementById('email-pill');
