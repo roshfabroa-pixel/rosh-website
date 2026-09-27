@@ -91,6 +91,7 @@
     display:flex;
     align-items:center;
     justify-content:space-between;
+    gap:8px;
     padding:14px 20px;
     padding-top:calc(14px + env(safe-area-inset-top, 0px));
     background:color-mix(in srgb, var(--bg) 86%, transparent);
@@ -106,14 +107,20 @@
     align-items:center;
     gap:8px;
     text-decoration:none;
+    flex-shrink:0;
   }
   .brand .bean{font-size:15px;}
   .navlinks{
     display:flex;
-    gap:4px;
+    gap:2px;
     list-style:none;
     margin:0;padding:0;
+    overflow-x:auto;
+    scrollbar-width:none;
+    -ms-overflow-style:none;
   }
+  .navlinks::-webkit-scrollbar{display:none;}
+  .navlinks li{flex-shrink:0;}
   .navlinks a{
     font-family:"JetBrains Mono", monospace;
     font-size:12px;
@@ -123,6 +130,8 @@
     color:var(--ink-soft);
     padding:8px 12px;
     border-radius:999px;
+    display:inline-block;
+    white-space:nowrap;
     transition:background .15s ease, color .15s ease;
   }
   .navlinks a:hover, .navlinks a.active{
@@ -131,7 +140,11 @@
   }
   @media (max-width:560px){
     .navlinks span{display:none;}
-    .navlinks a{padding:8px 9px;}
+    .navlinks a{padding:7px 8px; font-size:11px;}
+  }
+  @media (max-width:400px){
+    .brand-text{display:none;}
+    .navlinks a{padding:6px 7px; font-size:10.5px;}
   }
 
   .wrap{max-width:800px;margin-inline:auto;padding-inline:20px;}
@@ -476,7 +489,6 @@
   @media (max-width:380px){
     .wrap{padding-inline:16px;}
     section{padding-block:48px;}
-    .navlinks a{padding:8px 8px; font-size:11px;}
     .facts{gap:10px;}
     .fact{padding:14px 10px;}
     .contact-card{padding:26px 20px;}
@@ -486,7 +498,7 @@
 <body>
 
 <nav class="topnav">
-  <a class="brand" href="#top"><span class="bean">☕</span>lifeofachii</a>
+  <a class="brand" href="#top"><span class="bean">☕</span><span class="brand-text">lifeofachii</span></a>
   <ul class="navlinks">
     <li><a href="#story" data-nav>Story</a></li>
     <li><a href="#life" data-nav><span>The </span>Grind</a></li>
