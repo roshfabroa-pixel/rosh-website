@@ -37,7 +37,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
 <style>
   html{
     -webkit-text-size-adjust:100%;
@@ -1040,6 +1040,85 @@
   .faq details[open] summary::after{content:"–";}
   .faq details p{margin:0 0 22px;max-width:62ch;color:var(--ink-soft);line-height:1.65;}
 
+
+  /* ---------- code-editor layer ---------- */
+  :root{
+    --syn-com:#5C7A6B; --syn-key:#7BE8FF; --syn-str:#E6B673; --syn-num:#C792EA; --syn-fn:#82AAFF; --syn-kw:#FF7B9C;
+    --mono:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  :root[data-theme="light"]{
+    --syn-com:#5A7A6B; --syn-key:#06586D; --syn-str:#8A5410; --syn-num:#7B3FA8; --syn-fn:#2848A0; --syn-kw:#B3365B;
+  }
+  body{font-family:var(--mono);position:relative;}
+  h1.hero, h2.section-title, .fact-num, .cta-band a.cta-big, .contact-card h3, .cf-thanks h4,
+  .guestbook-form input, .guestbook-form textarea, .contact-form input, .contact-form textarea, .gb-entry-name{font-family:var(--mono);}
+  .bio{font-size:1.02rem;line-height:1.85;}
+  .subhead,.tl-desc,.role-desc,.service-card p,.process p,.faq details p{font-family:var(--mono);}
+
+  /* headings */
+  h1.hero{text-transform:none;font-weight:700;font-size:clamp(2.3rem, 7vw, 6.2rem);letter-spacing:-.04em;line-height:1.02;}
+  h2.section-title{text-transform:none;font-weight:700;font-size:clamp(1.7rem, 3.8vw, 3.2rem);letter-spacing:-.03em;line-height:1.1;max-width:22ch;}
+  h2.section-title::before{content:"## ";color:var(--syn-com);font-weight:400;}
+  .service-card h3,.tl-title,.process h4,.contact-card h3,.cf-thanks h4,.faq summary{text-transform:none;font-weight:700;letter-spacing:-.02em;}
+  .cta-band a.cta-big{text-transform:none;font-weight:700;letter-spacing:-.05em;}
+  .fact-num{text-transform:none;font-weight:700;color:var(--syn-num);}
+
+  /* syntax tokens */
+  .section-kicker{color:var(--syn-com);}
+  .section-kicker::before{content:"// ";color:var(--syn-com);}
+  .service-tag{color:var(--syn-fn);text-transform:none;letter-spacing:.02em;}
+  .service-tag::before{content:"const ";color:var(--syn-kw);}
+  .tl-date{color:var(--syn-com);text-transform:none;letter-spacing:.02em;}
+  .tl-date::before{content:"// ";}
+  .process .step{color:var(--syn-num);}
+  .tool-group h4{color:var(--syn-key);text-transform:none;letter-spacing:.02em;}
+  .tool-group h4::after{content:": [";color:var(--ink-faint);}
+  .tool-group li{color:var(--syn-str);border-color:transparent;padding-inline:4px;font-size:.82rem;}
+  .tool-group li::before,.tool-group li::after{content:'"';color:var(--ink-faint);}
+  .tool-group li::after{content:'",';}
+  .bio strong{color:var(--syn-key);font-weight:500;}
+  .marquee-track span{color:var(--syn-str);}
+  .marquee-track span::before{content:'"';color:var(--ink-faint);}
+  .marquee-track span::after{content:'"';color:var(--ink-faint);}
+  .faq summary::after{color:var(--syn-kw);}
+
+  /* editor tabs */
+  .navlinks{gap:0;}
+  .navlinks a{border-radius:0;text-transform:none;letter-spacing:0;font-size:12px;padding:10px 16px;border-top:2px solid transparent;color:var(--ink-faint);}
+  .navlinks a:hover,.navlinks a.active{background:var(--bg-panel);color:var(--ink);border-top-color:var(--amber);}
+  nav.topnav{padding-block:6px;}
+  .brand{text-transform:none;letter-spacing:0;}
+  .brand::before{content:"~/";color:var(--syn-com);margin-right:-4px;}
+
+  /* line-number gutter */
+  .gutter{
+    position:absolute;left:0;top:0;width:58px;z-index:3;pointer-events:none;
+    font-family:var(--mono);font-size:12px;line-height:24px;text-align:right;padding-right:14px;
+    color:var(--ink-faint);opacity:.45;white-space:pre;border-right:1px solid var(--line);
+  }
+  @media (max-width:1320px){ .gutter{display:none;} }
+
+  /* status bar */
+  .statusbar{
+    position:fixed;left:0;right:0;bottom:0;height:24px;z-index:80;
+    display:flex;justify-content:space-between;align-items:center;gap:18px;padding:0 14px;
+    background:var(--bg-panel);border-top:1px solid var(--line);
+    font-family:var(--mono);font-size:11px;letter-spacing:.02em;color:var(--ink-soft);white-space:nowrap;overflow:hidden;
+  }
+  .statusbar span{display:inline-flex;align-items:center;gap:6px;}
+  .statusbar .sb-group{display:flex;gap:18px;}
+  .statusbar .ok{color:var(--teal);}
+  .statusbar .live::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 6px var(--teal);}
+  body{padding-bottom:24px;}
+  .to-top{bottom:44px;}
+  @media (max-width:900px){ .statusbar{display:none;} body{padding-bottom:0;} .to-top{bottom:20px;} }
+
+  /* scrollbar */
+  html{scrollbar-width:thin;scrollbar-color:var(--line) var(--bg);}
+
+  /* footer as a comment */
+  footer{text-transform:none;letter-spacing:.02em;color:var(--syn-com);}
+
   /* ---------- small-phone tightening ---------- */
   @media (max-width:380px){
     .wrap{padding-inline:16px;}
@@ -1067,11 +1146,11 @@
 <nav class="topnav">
   <a class="brand" href="#top"><span class="brand-text">Roshwel Arch Fabroa</span></a>
   <ul class="navlinks">
-    <li><a href="#story" data-nav>About</a></li>
-    <li><a href="#life" data-nav>Skills</a></li>
-    <li><a href="#hire" data-nav>Services</a></li>
-    <li><a href="#gallery" data-nav>Gallery</a></li>
-    <li><a href="#contact" data-nav>Contact</a></li>
+    <li><a href="#story" data-nav>about.md</a></li>
+    <li><a href="#life" data-nav>skills.json</a></li>
+    <li><a href="#hire" data-nav>services.ts</a></li>
+    <li><a href="#gallery" data-nav>gallery.jpg</a></li>
+    <li><a href="#contact" data-nav>contact.sh</a></li>
   </ul>
   <a class="nav-cta" href="#contact">Hire me →</a>
   <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark or light theme">☀︎</button>
@@ -1430,8 +1509,12 @@
   </div>
 </section>
 
-<footer>© 2026 Roshwel Arch Fabroa</footer>
+<footer>/* © 2026 Roshwel Arch Fabroa — hand-built, no templates */</footer>
 
+<div class="statusbar" aria-hidden="true">
+  <div class="sb-group"><span>⎇ main</span><span class="ok">✓ 0 errors</span><span>UTF-8</span></div>
+  <div class="sb-group"><span id="sb-ln">Ln 1, Col 1</span><span>MNL <span id="sb-clock">--:--:--</span></span><span class="live ok">available</span></div>
+</div>
 <button class="to-top" id="to-top" type="button" aria-label="Back to top">↑</button>
 <a class="m-cta" id="m-cta" href="#contact">Message me</a>
 
@@ -1504,7 +1587,10 @@
   var clock = document.getElementById('mnl-clock');
   function tickClock(){
     try {
-      clock.textContent = new Date().toLocaleTimeString('en-GB', {timeZone:'Asia/Manila', hour12:false});
+      var nowT = new Date().toLocaleTimeString('en-GB', {timeZone:'Asia/Manila', hour12:false});
+      clock.textContent = nowT;
+      var sbc = document.getElementById('sb-clock');
+      if (sbc) sbc.textContent = nowT;
     } catch (e) {}
   }
   if (clock) { tickClock(); setInterval(tickClock, 1000); }
@@ -1529,6 +1615,8 @@
     var h = document.documentElement.scrollHeight - window.innerHeight;
     if (bar) bar.style.width = (h > 0 ? Math.min(100, y / h * 100) : 0) + '%';
     if (topBtn) topBtn.classList.toggle('show', y > 900);
+    var ln = document.getElementById('sb-ln');
+    if (ln) ln.textContent = 'Ln ' + (Math.floor(y / 24) + 1) + ', Col 1';
     if (mcta) {
       var nearContact = contactSec && contactSec.getBoundingClientRect().top < window.innerHeight * 0.7;
       mcta.classList.toggle('show', y > 500 && !nearContact);
@@ -1537,6 +1625,22 @@
   window.addEventListener('scroll', onScroll, {passive:true});
   onScroll();
   if (topBtn) topBtn.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
+
+  // line-number gutter
+  var gutter = document.createElement('div');
+  gutter.className = 'gutter';
+  gutter.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(gutter);
+  function buildGutter(){
+    var n = Math.ceil(document.documentElement.scrollHeight / 24), out = [];
+    for (var i = 1; i <= n; i++) out.push(i);
+    gutter.style.height = document.documentElement.scrollHeight + 'px';
+    gutter.textContent = out.join('\n');
+  }
+  buildGutter();
+  window.addEventListener('load', buildGutter);
+  window.addEventListener('resize', buildGutter);
+  if ('ResizeObserver' in window) new ResizeObserver(buildGutter).observe(document.body);
 
   // theme toggle
   var themeBtn = document.getElementById('theme-toggle');
