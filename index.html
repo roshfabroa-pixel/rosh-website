@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Hi, I'm Rosh</title>
-<meta name="description" content="Rosh — barista by day, Virtual Assistant by trade. Coffee, tech support, and a few snapshots of life in between.">
-<meta name="theme-color" content="#1B140F">
+<title>Rosh Fabroa — Virtual Assistant &amp; Tech Support</title>
+<meta name="description" content="Rosh Fabroa — Philippines-based Virtual Assistant and tech support professional. Inbox management, troubleshooting, data entry and customer support.">
+<meta name="theme-color" content="#0B0A09">
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="Hi, I'm Rosh">
-<meta property="og:description" content="Barista by day, Virtual Assistant by trade. Coffee, tech support, and a few snapshots of life in between.">
+<meta property="og:title" content="Rosh Fabroa — Virtual Assistant &amp; Tech Support">
+<meta property="og:description" content="Philippines-based Virtual Assistant and tech support professional. Reliable, detail-oriented, remote-ready." >
 <meta property="og:url" content="https://rosh-website-ten.vercel.app/">
 <meta property="og:image" content="https://rosh-website-ten.vercel.app/imgs/img7-hilltop.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Hi, I'm Rosh">
-<meta name="twitter:description" content="Barista by day, Virtual Assistant by trade. Coffee, tech support, and a few snapshots of life in between.">
+<meta name="twitter:title" content="Rosh Fabroa — Virtual Assistant &amp; Tech Support">
+<meta name="twitter:description" content="Philippines-based Virtual Assistant and tech support professional. Reliable, detail-oriented, remote-ready." >
 <meta name="twitter:image" content="https://rosh-website-ten.vercel.app/imgs/img7-hilltop.jpg">
 
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -33,6 +33,23 @@
   }
   html, body{margin:0;}
   :root{
+    --bg:#0B0A09;
+    --bg-panel:#141210;
+    --bg-raised:#1B1815;
+    --ink:#F1E9DC;
+    --ink-soft:#B9AD9C;
+    --ink-faint:#7E7365;
+    --line:#2A2621;
+    --amber:#E2984F;
+    --amber-strong:#F0B679;
+    --teal:#5FB3AC;
+    --teal-strong:#83C9C2;
+    --amber-tint:#2B2015;
+    --teal-tint:#16231F;
+    --shadow:0 16px 32px -16px rgba(0,0,0,.55);
+    color-scheme:dark;
+  }
+  :root[data-theme="light"]{
     --bg:#F3EEE4;
     --bg-panel:#FFFCF6;
     --bg-raised:#FBF7EF;
@@ -48,42 +65,6 @@
     --teal-tint:#DDEBE9;
     --shadow:0 12px 28px -18px rgba(34,26,20,.35);
     color-scheme:light;
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --bg:#18120D;
-      --bg-panel:#221A13;
-      --bg-raised:#2A2018;
-      --ink:#F1E7D8;
-      --ink-soft:#C6B7A3;
-      --ink-faint:#8E7E6B;
-      --line:#3E3226;
-      --amber:#E2984F;
-      --amber-strong:#F0B679;
-      --teal:#5FB3AC;
-      --teal-strong:#83C9C2;
-      --amber-tint:#3A2A1B;
-      --teal-tint:#1C2E2B;
-      --shadow:0 16px 32px -16px rgba(0,0,0,.55);
-      color-scheme:dark;
-    }
-  }
-  :root[data-theme="dark"]{
-    --bg:#18120D;
-    --bg-panel:#221A13;
-    --bg-raised:#2A2018;
-    --ink:#F1E7D8;
-    --ink-soft:#C6B7A3;
-    --ink-faint:#8E7E6B;
-    --line:#3E3226;
-    --amber:#E2984F;
-    --amber-strong:#F0B679;
-    --teal:#5FB3AC;
-    --teal-strong:#83C9C2;
-    --amber-tint:#3A2A1B;
-    --teal-tint:#1C2E2B;
-    --shadow:0 16px 32px -16px rgba(0,0,0,.55);
-    color-scheme:dark;
   }
 
   *{box-sizing:border-box;}
@@ -337,8 +318,8 @@
     height:6px;border-radius:999px;background:rgba(0,0,0,.08);
     margin-top:12px;overflow:hidden;
   }
-  @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .role-bar{background:rgba(255,255,255,.1);} }
-  :root[data-theme="dark"] .role-bar{background:rgba(255,255,255,.1);}
+  .role-bar{background:rgba(255,255,255,.1);}
+  :root[data-theme="light"] .role-bar{background:rgba(0,0,0,.08);}
   .role-bar-fill{height:100%;border-radius:999px;width:0%;transition:width 1.1s cubic-bezier(.2,.8,.2,1);}
   .role.barista .role-bar-fill{background:var(--amber);}
   .role.tech .role-bar-fill{background:var(--teal);}
@@ -670,6 +651,173 @@
     color:var(--amber-strong);
   }
 
+
+  /* ---------- studio-style layer ---------- */
+  .wrap{max-width:1180px;}
+  section{padding-block:96px;}
+  .divider{display:none;}
+  nav.topnav{background:color-mix(in srgb, var(--bg) 70%, transparent);}
+  .brand{text-transform:uppercase;}
+
+  .hero-sec{
+    --hero-ink:#F4ECDF;
+    min-height:calc(100svh - 62px);
+    display:flex;
+    align-items:flex-end;
+    padding:96px 0 72px;
+    color:var(--hero-ink);
+    background:
+      linear-gradient(180deg, rgba(11,10,9,.35) 0%, rgba(11,10,9,.55) 55%, #0B0A09 100%),
+      linear-gradient(90deg, rgba(11,10,9,.75) 0%, rgba(11,10,9,0) 70%),
+      url("imgs/img7-hilltop.jpg") center/cover no-repeat;
+  }
+  .hero-sec .wrap{width:100%;}
+  .hero-sec .eyebrow, .hero-sec .subhead{color:rgba(244,236,223,.82);}
+  h1.hero{
+    font-family:"Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+    font-weight:500;
+    text-transform:uppercase;
+    font-size:clamp(2.8rem, 8.5vw, 8rem);
+    line-height:.95;
+    letter-spacing:-.02em;
+    margin-bottom:22px;
+  }
+  .subhead{
+    font-family:"JetBrains Mono", monospace;
+    font-size:clamp(.9rem, 1.1vw, 1.05rem);
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    max-width:46ch;
+    min-height:3em;
+  }
+  .hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px;}
+  .btn{
+    font-family:"JetBrains Mono", monospace;
+    font-size:12px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    text-decoration:none;
+    padding:16px 26px;
+    background:#F4ECDF;
+    color:#16110D;
+    border:1px solid #F4ECDF;
+    transition:background .2s ease, color .2s ease;
+  }
+  .btn:hover{background:transparent;color:#F4ECDF;}
+  .btn.ghost{background:rgba(244,236,223,.08);color:#F4ECDF;border-color:rgba(244,236,223,.35);backdrop-filter:blur(6px);}
+  .btn.ghost:hover{background:#F4ECDF;color:#16110D;}
+
+  /* marquee */
+  .marquee{
+    overflow:hidden;
+    border-block:1px solid var(--line);
+    background:var(--bg);
+    padding:18px 0;
+  }
+  .marquee-track{
+    display:flex;
+    width:max-content;
+    animation:marquee 38s linear infinite;
+  }
+  .marquee-track span{
+    font-family:"JetBrains Mono", monospace;
+    font-size:13px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    white-space:nowrap;
+    padding-right:28px;
+    color:var(--ink);
+  }
+  .marquee-track span i{font-style:normal;color:var(--amber);padding-left:28px;}
+  @keyframes marquee{ to{transform:translateX(-50%);} }
+  @media (prefers-reduced-motion:reduce){ .marquee-track{animation:none;} }
+
+  /* section headings */
+  .section-kicker{color:var(--amber);margin-bottom:18px;}
+  h2.section-title{
+    font-family:"Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+    font-style:normal;
+    font-weight:500;
+    text-transform:uppercase;
+    font-size:clamp(2.2rem, 5.2vw, 4.6rem);
+    line-height:1;
+    letter-spacing:-.02em;
+    margin:0 0 36px;
+    max-width:16ch;
+  }
+  .bio{max-width:62ch;}
+
+  /* timeline -> numbered rows */
+  .timeline{border-left:none;padding-left:0;margin-top:56px;border-top:1px solid var(--line);}
+  .tl-item{
+    display:grid;
+    grid-template-columns:minmax(150px,1fr) 2fr 3fr;
+    gap:24px;
+    padding:28px 0;
+    border-bottom:1px solid var(--line);
+    transition:background .2s ease, padding .2s ease;
+  }
+  .tl-item:last-child{padding-bottom:28px;}
+  .tl-item:hover{background:var(--bg-panel);padding-inline:14px;}
+  .tl-item::before{display:none;}
+  .tl-date{color:var(--amber);margin:0;}
+  .tl-title{font-size:1.5rem;text-transform:uppercase;letter-spacing:-.01em;margin:0;}
+  @media (max-width:760px){ .tl-item{grid-template-columns:1fr;gap:6px;} }
+
+  /* sharp edges */
+  .ticket,.role,.service-card,.fact,.frame,.contact-card,.guestbook-form,.gb-entry,.pill{border-radius:0;}
+  .pill{text-transform:uppercase;letter-spacing:.08em;font-size:.78rem;}
+
+  /* stats */
+  .facts{
+    grid-template-columns:repeat(3,1fr);
+    gap:0;
+    border-top:1px solid var(--line);
+    border-left:1px solid var(--line);
+    margin-top:56px;
+  }
+  @media (max-width:600px){ .facts{grid-template-columns:1fr 1fr;} }
+  .fact{
+    text-align:left;
+    background:transparent;
+    border:none;
+    border-right:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding:28px 22px 24px;
+  }
+  .fact-emoji{display:none;}
+  .fact-num{
+    font-family:"Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+    font-weight:500;
+    font-size:clamp(1.6rem, 4.2vw, 3.6rem);
+    letter-spacing:-.02em;
+    line-height:1;
+    margin-bottom:10px;
+    text-transform:uppercase;
+  }
+  .fact-label{font-family:"JetBrains Mono", monospace;font-size:.7rem;letter-spacing:.12em;color:var(--ink-faint);}
+
+  /* services */
+  .service-grid{gap:0;border-top:1px solid var(--line);border-left:1px solid var(--line);margin-top:48px;}
+  .service-card{background:transparent;border:none;border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:32px 28px;transition:background .2s ease;}
+  .service-card:hover{background:var(--bg-panel);}
+  .service-card h3{font-size:1.4rem;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:10px;}
+  .service-tag{color:var(--amber);}
+
+  /* gallery */
+  .gallery{grid-template-columns:repeat(3,1fr);gap:6px;margin-top:48px;}
+  .frame{aspect-ratio:4/5;border:none;}
+  .frame img{filter:grayscale(.85) contrast(1.05);transition:transform .5s ease, filter .4s ease;}
+  .frame:hover img{filter:none;transform:scale(1.05);}
+
+  .contact-card{background:var(--bg-panel);}
+  .contact-card h3{font-family:"Space Grotesk", ui-sans-serif, system-ui, sans-serif;font-weight:500;text-transform:uppercase;font-size:clamp(1.8rem,3.4vw,3rem);letter-spacing:-.02em;}
+  .guestbook-form input,.guestbook-form textarea{border-radius:0;}
+  .clue-quote{margin-top:72px;}
+  .role-bar{display:none;}
+  .role{background:transparent;border:1px solid var(--line);}
+  .role:hover{transform:none;border-color:var(--amber);}
+
   /* ---------- small-phone tightening ---------- */
   @media (max-width:380px){
     .wrap{padding-inline:16px;}
@@ -693,11 +841,11 @@
 </script>
 
 <nav class="topnav">
-  <a class="brand" href="#top"><span class="bean">☕</span><span class="brand-text">lifeofachii</span></a>
+  <a class="brand" href="#top"><span class="brand-text">Rosh Fabroa</span></a>
   <ul class="navlinks">
-    <li><a href="#story" data-nav>Story</a></li>
-    <li><a href="#life" data-nav><span>The </span>Grind</a></li>
-    <li><a href="#hire" data-nav>Hire</a></li>
+    <li><a href="#story" data-nav>About</a></li>
+    <li><a href="#life" data-nav>Skills</a></li>
+    <li><a href="#hire" data-nav>Services</a></li>
     <li><a href="#gallery" data-nav>Gallery</a></li>
     <li><a href="#contact" data-nav>Contact</a></li>
   </ul>
@@ -708,41 +856,48 @@
 
 <section class="hero-sec">
   <div class="wrap">
-    <p class="eyebrow">life of achii · rosh's corner of the internet</p>
-    <h1 class="hero">Hi! <span class="wave">👋</span><br>I'm Rosh</h1>
+    <p class="eyebrow">Virtual Assistant · Tech Support · Philippines</p>
+    <h1 class="hero">Rosh<br>Fabroa</h1>
     <p class="subhead"><span id="typewriter"></span><span class="type-cursor"></span></p>
-    <a class="hero-scroll" href="#story">scroll to find out <span class="arrow">↓</span></a>
+    <div class="hero-actions">
+      <a class="btn" href="#hire">Work with me</a>
+      <a class="btn ghost" href="#story">About me ↓</a>
+    </div>
   </div>
 </section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track"><span>Inbox Management<i>×</i></span><span>Calendar Scheduling<i>×</i></span><span>Tech Troubleshooting<i>×</i></span><span>Data Entry<i>×</i></span><span>Customer Support<i>×</i></span><span>Account Setup<i>×</i></span><span>Documentation<i>×</i></span><span>Remote-Ready<i>×</i></span><span>Inbox Management<i>×</i></span><span>Calendar Scheduling<i>×</i></span><span>Tech Troubleshooting<i>×</i></span><span>Data Entry<i>×</i></span><span>Customer Support<i>×</i></span><span>Account Setup<i>×</i></span><span>Documentation<i>×</i></span><span>Remote-Ready<i>×</i></span><span>Inbox Management<i>×</i></span><span>Calendar Scheduling<i>×</i></span><span>Tech Troubleshooting<i>×</i></span><span>Data Entry<i>×</i></span><span>Customer Support<i>×</i></span><span>Account Setup<i>×</i></span><span>Documentation<i>×</i></span><span>Remote-Ready<i>×</i></span><span>Inbox Management<i>×</i></span><span>Calendar Scheduling<i>×</i></span><span>Tech Troubleshooting<i>×</i></span><span>Data Entry<i>×</i></span><span>Customer Support<i>×</i></span><span>Account Setup<i>×</i></span><span>Documentation<i>×</i></span><span>Remote-Ready<i>×</i></span></div>
+</div>
 
 <hr class="divider">
 
 <section id="story">
   <div class="wrap reveal">
-    <p class="section-kicker">who is this guy</p>
-    <h2 class="section-title">A little bit of both</h2>
+    <p class="section-kicker">01 — About</p>
+    <h2 class="section-title">Hospitality discipline, technical precision</h2>
     <p class="bio">
-      By day, I'm a <strong>barista</strong> — pulling espresso shots, dialing in grinders, and keeping the bar moving during the rush. By trade, I'm a <strong>Virtual Assistant</strong>, and whenever tech acts up, I'm the one troubleshooting it.
+      I'm a <strong>Virtual Assistant</strong> and tech support professional based in the Philippines. I handle the admin and technical work that keeps your day running — and I'm currently working as a <strong>barista</strong>, which is where I sharpened my pace, composure and attention to detail.
     </p>
     <p class="bio">
-      I like blending the fast-paced, people-first world of hospitality with the logical puzzles of tech support — one keeps me on my feet, the other keeps me thinking. Turns out steaming milk and debugging a stubborn router take the exact same kind of patience.
+      Hospitality taught me to stay calm under pressure and put people first; tech support taught me to diagnose methodically and communicate clearly. Together they make me dependable with clients and fast to resolve problems.
     </p>
 
     <div class="timeline">
       <div class="tl-item tech">
-        <div class="tl-date">Chapter 1 · Concentrix PH</div>
+        <div class="tl-date">Concentrix PH</div>
         <div class="tl-title">Tech Support</div>
-        <div class="tl-desc">Started my working life on the phones — troubleshooting, patience-testing, and learning that most problems just need someone calm enough to actually listen.</div>
+        <div class="tl-desc">Began my career in technical support — troubleshooting, handling customer concerns and learning that most problems are solved by listening first.</div>
       </div>
       <div class="tl-item">
-        <div class="tl-date">Chapter 2 · One year on bar</div>
+        <div class="tl-date">1 year</div>
         <div class="tl-title">Barista</div>
-        <div class="tl-desc">Traded headsets for espresso machines. Learned to read a room, memorize a hundred orders, and make a good drink even on the worst rush.</div>
+        <div class="tl-desc">Moved into hospitality — building speed, accuracy and customer-facing skills in a fast-paced environment.</div>
       </div>
       <div class="tl-item tech">
-        <div class="tl-date">Chapter 3 · Right now</div>
+        <div class="tl-date">Present</div>
         <div class="tl-title">Virtual Assistant</div>
-        <div class="tl-desc">Currently juggling both worlds — pulling shots some days, fixing tech problems on others. Still figuring out the next chapter, one shift at a time.</div>
+        <div class="tl-desc">Taking on Virtual Assistant and tech support work alongside my barista role, available for remote clients.</div>
       </div>
     </div>
   </div>
@@ -752,22 +907,22 @@
 
 <section id="life">
   <div class="wrap reveal">
-    <p class="section-kicker">the daily grind, literally</p>
-    <h2 class="section-title">Two sides of one order ticket</h2>
+    <p class="section-kicker">02 — Skills</p>
+    <h2 class="section-title">Two disciplines, one standard</h2>
 
     <div class="ticket">
-      <div class="ticket-head"><span>order #001 — rosh</span><span>2 of 2 skills ready</span></div>
+      <div class="ticket-head"><span>Profile — Rosh Fabroa</span><span>Core skills</span></div>
       <div class="roles">
         <div class="role barista" style="--pct:88%">
-          <div class="role-label">☕ On bar</div>
+          <div class="role-label">Hospitality</div>
           <div class="role-title">Barista</div>
-          <div class="role-desc">Espresso, milk texture, and a menu board's worth of small talk.</div>
+          <div class="role-desc">Fast-paced service, accuracy under pressure, and clear communication with every customer.</div>
           <div class="role-bar"><div class="role-bar-fill"></div></div>
         </div>
         <div class="role tech" style="--pct:82%">
-          <div class="role-label">💻 On call</div>
+          <div class="role-label">Remote support</div>
           <div class="role-title">Virtual Assistant</div>
-          <div class="role-desc">Troubleshooting, fixing what's broken, keeping things running.</div>
+          <div class="role-desc">Troubleshooting, admin support and keeping clients' tools and workflows running.</div>
           <div class="role-bar"><div class="role-bar-fill"></div></div>
         </div>
       </div>
@@ -775,38 +930,20 @@
 
     <div class="facts">
       <div class="fact">
-        <span class="fact-emoji">☕</span>
         <span class="fact-num">1+</span>
-        <span class="fact-label">Year on bar</span>
+        <span class="fact-label">Year in hospitality</span>
       </div>
       <div class="fact">
-        <span class="fact-emoji">🌍</span>
         <span class="fact-num">PH-based</span>
         <span class="fact-label">Remote-ready</span>
       </div>
       <div class="fact">
-        <span class="fact-emoji">🛠️</span>
-        <span class="fact-num">∞</span>
-        <span class="fact-label">Bugs fixed</span>
-      </div>
-      <div class="fact">
-        <span class="fact-emoji">🎮</span>
-        <span class="fact-num">Gamer</span>
-        <span class="fact-label">Off the clock</span>
-      </div>
-      <div class="fact">
-        <span class="fact-emoji">🖋️</span>
-        <span class="fact-num">Inked</span>
-        <span class="fact-label">Tattoo collector</span>
-      </div>
-      <div class="fact">
-        <span class="fact-emoji">🧑‍💻</span>
-        <span class="fact-num">Builds</span>
-        <span class="fact-label">Websites on the side</span>
+        <span class="fact-num">Web</span>
+        <span class="fact-label">Self-taught builder</span>
       </div>
     </div>
-    <p class="bio" style="margin-top:20px;">
-      Off the clock, I'm usually deep in a game with a controller in hand, decompressing the same way other people take a walk — and somewhere between shifts I picked up a habit of turning skin into a sketchbook, with each tattoo marking a chapter I didn't want to forget. On top of all that, I moonlight as a self-taught web builder, putting together sites like this one whenever I get the itch to make something — this page included.
+    <p class="bio" style="margin-top:28px;">
+      Outside work I'm a gamer and a self-taught web builder — I put this site together myself.
     </p>
   </div>
 </section>
@@ -815,32 +952,32 @@
 
 <section id="hire">
   <div class="wrap reveal">
-    <p class="section-kicker">actually, professionally</p>
-    <h2 class="section-title">Hire me</h2>
+    <p class="section-kicker">03 — Services</p>
+    <h2 class="section-title">How I can help</h2>
     <p class="bio">
-      Away from the coffee jokes — I take on Virtual Assistant and tech support work. If you need someone reliable to handle the admin grind or fix what's broken, that's the other half of what I do.
+      I take on Virtual Assistant and tech support engagements. If you need someone reliable to handle your admin or resolve technical issues, I'd be glad to help.
     </p>
 
     <div class="service-grid">
       <div class="service-card">
-        <span class="service-tag">📥 admin</span>
+        <span class="service-tag">Admin</span>
         <h3>Inbox &amp; Calendar Management</h3>
         <p>Email triage, scheduling, and keeping your day organized so you don't have to.</p>
       </div>
       <div class="service-card">
-        <span class="service-tag">🛠️ support</span>
+        <span class="service-tag">Support</span>
         <h3>Tech Troubleshooting &amp; Setup</h3>
         <p>Software issues, account setup, device problems — the stuff that eats your afternoon.</p>
       </div>
       <div class="service-card">
-        <span class="service-tag">📊 data</span>
+        <span class="service-tag">Data</span>
         <h3>Data Entry &amp; Admin Support</h3>
         <p>Spreadsheets, research, documentation — detail-heavy work done carefully.</p>
       </div>
       <div class="service-card">
-        <span class="service-tag">💬 service</span>
+        <span class="service-tag">Service</span>
         <h3>Customer Support</h3>
-        <p>Chat and email support with the same patience I bring to a rush-hour bar.</p>
+        <p>Chat and email support delivered with patience, clarity and a customer-first approach.</p>
       </div>
     </div>
 
@@ -858,8 +995,8 @@
 
 <section id="gallery">
   <div class="wrap reveal">
-    <p class="section-kicker">@lifeofachii</p>
-    <h2 class="section-title">Snapshots</h2>
+    <p class="section-kicker">04 — Gallery</p>
+    <h2 class="section-title">Beyond work</h2>
     <div class="gallery" id="gallery-grid">
       <div class="frame"><img src="imgs/img1.jpg" alt="Photo from @lifeofachii" loading="lazy"></div>
       <div class="frame"><img src="imgs/img2.jpg" alt="Photo from @lifeofachii" loading="lazy"></div>
@@ -868,7 +1005,7 @@
       <div class="frame"><img src="imgs/img6.jpg" alt="Photo from @lifeofachii" loading="lazy"></div>
       <div class="frame"><img src="imgs/img7-hilltop.jpg" alt="Photo from @lifeofachii" loading="lazy"></div>
     </div>
-    <p class="gallery-caption">A few snapshots from @lifeofachii — tap one to zoom, or head to Instagram for the full feed.</p>
+    <p class="gallery-caption">Selected photos from @lifeofachii — tap one to zoom, or visit Instagram for more.</p>
   </div>
 </section>
 
@@ -876,9 +1013,9 @@
 
 <section id="guestbook">
   <div class="wrap reveal">
-    <p class="section-kicker">leave a note</p>
+    <p class="section-kicker">05 — Guestbook</p>
     <h2 class="section-title">Guestbook</h2>
-    <p class="bio">Scrolled this far? Leave something behind — a hello, a joke, whatever.</p>
+    <p class="bio">Visited the site? Leave a note or a word of feedback.</p>
 
     <form class="guestbook-form" id="guestbook-form">
       <div class="gb-row">
@@ -901,12 +1038,12 @@
 
 <section id="contact">
   <div class="wrap reveal">
-    <p class="section-kicker">say hi</p>
-    <h2 class="section-title">Find me</h2>
+    <p class="section-kicker">06 — Contact</p>
+    <h2 class="section-title">Get in touch</h2>
 
     <div class="contact-card">
-      <h3>Order's up ☕</h3>
-      <p>Whether you want to talk coffee, tech, or you just liked a photo — I'm easy to reach. Pick whichever channel feels right.</p>
+      <h3>Let's work together</h3>
+      <p>Tell me what you need and I'll reply with how I can help and a quote. Choose whichever channel suits you.</p>
       <div class="links">
         <a class="pill" href="https://www.instagram.com/lifeofachii/" target="_blank" rel="noopener"><span class="dot"></span>Instagram — @lifeofachii</a>
         <a class="pill" href="https://wa.me/qr/ABJ56K4BOL6LD1" target="_blank" rel="noopener"><span class="dot"></span>WhatsApp</a>
@@ -914,12 +1051,10 @@
         <button class="pill" id="email-pill" type="button"><span class="dot"></span><span id="email-text">roshfabroa@gmail.com</span></button>
       </div>
     </div>
-
-    <p class="clue-quote">"Not everything worth finding is loud about it — some things only show up to the ones still looking."</p>
   </div>
 </section>
 
-<footer>lifeofachii · made with ☕ and a little bit of debugging <span class="secret-wrap"><span class="secret-arrows">›››</span> <a href="rent.html" class="secret-link">rent me?</a></span></footer>
+<footer>© 2026 Rosh Fabroa</footer>
 
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" id="lightbox-close" aria-label="Close">✕</button>
@@ -936,7 +1071,7 @@
   function currentTheme(){
     var attr = document.documentElement.getAttribute('data-theme');
     if (attr === 'dark' || attr === 'light') return attr;
-    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    return 'dark';
   }
   function syncIcon(){
     themeBtn.textContent = currentTheme() === 'dark' ? '☀︎' : '☾';
@@ -950,7 +1085,7 @@
   });
 
   // typewriter
-  var phrases = ["barista by day.", "tech support by trade.", "coffee & code, one shift at a time."];
+  var phrases = ["Virtual Assistant.", "Technical support.", "Reliable, detail-oriented, remote-ready."];
   var el = document.getElementById('typewriter');
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduced) {
