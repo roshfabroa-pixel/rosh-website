@@ -1147,6 +1147,29 @@
     .navlinks span{display:inline;}
   }
 
+
+  /* ---------- packages ---------- */
+  .pkg-grid{display:grid;grid-template-columns:repeat(3,1fr);margin-top:48px;border-top:1px solid var(--line);border-left:1px solid var(--line);}
+  @media (max-width:900px){ .pkg-grid{grid-template-columns:1fr;} }
+  .pkg{position:relative;display:flex;flex-direction:column;padding:32px 28px 28px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);transition:background .2s ease;}
+  .pkg:hover{background:var(--bg-panel);}
+  .pkg::before{content:"";position:absolute;top:-1px;left:-1px;width:12px;height:12px;border-top:2px solid var(--amber);border-left:2px solid var(--amber);opacity:0;transition:opacity .2s ease;}
+  .pkg:hover::before{opacity:1;}
+  .pkg-tag{font-size:12px;letter-spacing:.04em;color:var(--syn-fn);margin-bottom:10px;}
+  .pkg-tag::before{content:"const ";color:var(--syn-kw);}
+  .pkg h3{margin:0 0 8px;font-size:1.5rem;font-weight:700;letter-spacing:-.02em;}
+  .pkg .best{margin:0;color:var(--ink-soft);font-size:.92rem;line-height:1.6;}
+  .pkg ul{list-style:none;margin:20px 0 26px;padding:0;flex:1;}
+  .pkg li{position:relative;padding:7px 0 7px 22px;font-size:.9rem;line-height:1.5;color:var(--ink);}
+  .pkg li::before{content:"+";position:absolute;left:0;color:var(--syn-num);}
+  .pkg .pill{align-self:flex-start;}
+  .pkg-note{margin:24px 0 0;color:var(--ink-faint);font-size:.88rem;}
+  .week{margin-top:56px;display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);border-left:1px solid var(--line);}
+  @media (max-width:760px){ .week{grid-template-columns:1fr;} }
+  .week div{padding:24px 22px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .week b{display:block;font-size:12px;letter-spacing:.06em;color:var(--syn-num);margin-bottom:8px;font-weight:500;}
+  .week p{margin:0;color:var(--ink-soft);font-size:.92rem;line-height:1.6;}
+
   /* ---------- small-phone tightening ---------- */
   @media (max-width:380px){
     .wrap{padding-inline:16px;}
@@ -1440,9 +1463,66 @@
 
 <hr class="divider">
 
+<section id="packages">
+  <div class="wrap reveal">
+    <p class="section-kicker">04 — Packages</p>
+    <h2 class="section-title">Pick a package</h2>
+    <p class="bio">Three ways to work with me. Not sure which fits? Tell me what you need and I'll recommend one.</p>
+
+    <div class="pkg-grid">
+      <article class="pkg">
+        <div class="pkg-tag">admin</div>
+        <h3>Admin &amp; Inbox VA</h3>
+        <p class="best">For busy owners who need someone reliable on the day-to-day.</p>
+        <ul>
+          <li>Inbox and calendar management</li>
+          <li>Data entry and documentation</li>
+          <li>Customer support by chat and email</li>
+          <li>Regular progress updates</li>
+        </ul>
+        <a class="pill" href="#contact" data-pkg="Admin & Inbox VA"><span class="dot"></span>Ask for a quote</a>
+      </article>
+      <article class="pkg">
+        <div class="pkg-tag">automation</div>
+        <h3>GoHighLevel Automation</h3>
+        <p class="best">For businesses with a CRM full of leads that nobody follows up.</p>
+        <ul>
+          <li>Workflows, pipelines and calendars</li>
+          <li>Reactivation campaigns for dormant leads</li>
+          <li>QA on every automation, plus SOPs</li>
+          <li>Reporting on opens, replies and bookings</li>
+        </ul>
+        <a class="pill" href="#contact" data-pkg="GoHighLevel Automation"><span class="dot"></span>Ask for a quote</a>
+      </article>
+      <article class="pkg">
+        <div class="pkg-tag">support</div>
+        <h3>Tech Support &amp; Setup</h3>
+        <p class="best">For teams that lose time to software and account problems.</p>
+        <ul>
+          <li>Troubleshooting and fixes</li>
+          <li>Account and software setup</li>
+          <li>Remote support sessions</li>
+          <li>Clear write-ups of what was fixed</li>
+        </ul>
+        <a class="pill" href="#contact" data-pkg="Tech Support & Setup"><span class="dot"></span>Ask for a quote</a>
+      </article>
+    </div>
+    <p class="pkg-note">Priced by scope and hours. Message me with what you need and I'll send a quote.</p>
+
+    <h3 class="section-kicker process-head">What your first week looks like</h3>
+    <div class="week">
+      <div><b>Day 1</b><p>We confirm the scope and I get access to your tools.</p></div>
+      <div><b>Days 2–4</b><p>I start on your first tasks and check in with questions.</p></div>
+      <div><b>End of week</b><p>You get a short progress report and we plan what is next.</p></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
 <section id="gallery">
   <div class="wrap reveal">
-    <p class="section-kicker">04 — Gallery</p>
+    <p class="section-kicker">05 — Gallery</p>
     <h2 class="section-title">Beyond work</h2>
     <div class="gallery" id="gallery-grid">
       <div class="frame"><img src="imgs/img1.jpg" alt="Photo from @lifeofachii" loading="lazy"></div>
@@ -1460,7 +1540,7 @@
 
 <section id="play">
   <div class="wrap reveal">
-    <p class="section-kicker">05 — Take a break</p>
+    <p class="section-kicker">06 — Take a break</p>
     <h2 class="section-title">Coffee runner</h2>
     <p class="bio">Coffee is half my job. Hot mugs everywhere, so keep jumping. See how far you can get.</p>
     <div class="game-wrap">
@@ -1474,7 +1554,7 @@
 
 <section id="guestbook">
   <div class="wrap reveal">
-    <p class="section-kicker">06 — Guestbook</p>
+    <p class="section-kicker">07 — Guestbook</p>
     <h2 class="section-title">Guestbook</h2>
     <p class="bio">Visited the site? Leave a note or a word of feedback.</p>
 
@@ -1507,7 +1587,7 @@
 
 <section id="contact">
   <div class="wrap reveal">
-    <p class="section-kicker">07 — Contact</p>
+    <p class="section-kicker">08 — Contact</p>
     <h2 class="section-title">Get in touch</h2>
 
     <div class="contact-card">
@@ -1946,6 +2026,14 @@
     document.getElementById('cf-thanks').hidden = true;
     cf.hidden = false;
     document.getElementById('cf-name').focus();
+  });
+
+  // package buttons prefill the contact message
+  Array.prototype.forEach.call(document.querySelectorAll('[data-pkg]'), function(a){
+    a.addEventListener('click', function(){
+      var box = document.getElementById('cf-msg');
+      if (box && !box.value.trim()) box.value = 'Hi, I am interested in the ' + a.getAttribute('data-pkg') + ' package. ';
+    });
   });
 
   // email copy
