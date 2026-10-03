@@ -1117,6 +1117,14 @@
   /* footer as a comment */
   footer{text-transform:none;letter-spacing:.02em;color:var(--syn-com);}
 
+
+  /* ---------- game ---------- */
+  .game-wrap{margin-top:36px;border:1px solid var(--line);background:var(--bg-panel);position:relative;}
+  .game-wrap canvas{display:block;width:100%;height:220px;outline:none;cursor:pointer;touch-action:manipulation;}
+  .game-wrap canvas:focus-visible{outline:2px solid var(--amber);outline-offset:-2px;}
+  .game-hint{margin:12px 0 0;font-size:.82rem;color:var(--ink-faint);}
+  .game-hint kbd{font-family:var(--mono);font-size:.78rem;border:1px solid var(--line);padding:1px 6px;color:var(--ink-soft);}
+
   /* ---------- small-phone tightening ---------- */
   @media (max-width:380px){
     .wrap{padding-inline:16px;}
@@ -1427,9 +1435,23 @@
 
 <hr class="divider">
 
+<section id="play">
+  <div class="wrap reveal">
+    <p class="section-kicker">05 — Take a break</p>
+    <h2 class="section-title">Bug runner</h2>
+    <p class="bio">Fixing bugs is my job. Dodging them is a game. See how far you can get.</p>
+    <div class="game-wrap">
+      <canvas id="game" tabindex="0" role="img" aria-label="Bug runner game. Click the game, then press space or the up arrow to jump over the bugs."></canvas>
+    </div>
+    <p class="game-hint">Click or tap the game to start. Jump with <kbd>Space</kbd> or <kbd>↑</kbd>, or tap.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
 <section id="guestbook">
   <div class="wrap reveal">
-    <p class="section-kicker">05 — Guestbook</p>
+    <p class="section-kicker">06 — Guestbook</p>
     <h2 class="section-title">Guestbook</h2>
     <p class="bio">Visited the site? Leave a note or a word of feedback.</p>
 
@@ -1462,7 +1484,7 @@
 
 <section id="contact">
   <div class="wrap reveal">
-    <p class="section-kicker">06 — Contact</p>
+    <p class="section-kicker">07 — Contact</p>
     <h2 class="section-title">Get in touch</h2>
 
     <div class="contact-card">
@@ -1933,6 +1955,159 @@
     if (e.key === 'ArrowLeft') showPhoto(currentIndex - 1);
     if (e.key === 'ArrowRight') showPhoto(currentIndex + 1);
   });
+})();
+</script>
+<script>
+(function(){
+  var c = document.getElementById('game');
+  if (!c || !c.getContext) return;
+  var ctx = c.getContext('2d');
+  var wrap = c.parentNode;
+  var H = 220, W = 600, GROUND = H - 44;
+  var state = 'ready'; // ready | running | over
+  var visible = false, raf = 0, last = 0;
+  var player, obstacles, tokens, speed, dist, nextGap, score, hi = 0, col = {};
+
+  try { hi = parseInt(localStorage.getItem('rosh-hi') || '0', 10) || 0; } catch (e) {}
+
+  function readColors(){
+    var cs = getComputedStyle(document.documentElement);
+    function g(n, d){ var v = cs.getPropertyValue(n).trim(); return v || d; }
+    col = {
+      bg: g('--bg-panel', '#0D1117'), line: g('--line', '#1E2630'), ink: g('--ink', '#E6EDF3'),
+      soft: g('--ink-faint', '#7F8B98'), me: g('--amber', '#38D9F5'), bug: g('--syn-kw', '#FF7B9C'),
+      ok: g('--teal', '#4DF0A0')
+    };
+  }
+
+  function size(){
+    var dpr = window.devicePixelRatio || 1;
+    W = wrap.clientWidth || 600;
+    c.width = Math.floor(W * dpr);
+    c.height = Math.floor(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    draw();
+  }
+
+  function reset(){
+    player = { x: 56, y: GROUND - 28, w: 28, h: 28, vy: 0, onGround: true };
+    obstacles = [];
+    tokens = [];
+    for (var i = 0; i < 7; i++) tokens.push({ x: Math.random() * W, y: 20 + Math.random() * 90, t: ['0','1','{ }','</>','=>','if'][i % 6] });
+    speed = 5.2; dist = 0; score = 0; nextGap = 320;
+  }
+
+  function jump(){
+    if (state === 'ready' || state === 'over') { if (state === 'over' && performance.now() - overAt < 350) return; reset(); state = 'running'; last = performance.now(); loop(); }
+    if (player.onGround) { player.vy = -13.2; player.onGround = false; }
+  }
+  var overAt = 0;
+
+  function update(dt){
+    speed = 5.2 + Math.min(7, score / 120);
+    dist += speed * dt;
+    score = Math.floor(dist / 10);
+
+    player.vy += 0.78 * dt;
+    player.y += player.vy * dt;
+    if (player.y >= GROUND - player.h) { player.y = GROUND - player.h; player.vy = 0; player.onGround = true; }
+
+    nextGap -= speed * dt;
+    if (nextGap <= 0) {
+      var h = 24 + Math.floor(Math.random() * 22), w = 20 + Math.floor(Math.random() * 14);
+      obstacles.push({ x: W + 10, w: w, h: h });
+      if (Math.random() < 0.2) obstacles.push({ x: W + 10 + w + 6, w: 20, h: 26 });
+      nextGap = 260 + Math.random() * 260 + speed * 18;
+    }
+    for (var i = obstacles.length - 1; i >= 0; i--) {
+      obstacles[i].x -= speed * dt;
+      if (obstacles[i].x + obstacles[i].w < -10) obstacles.splice(i, 1);
+    }
+    tokens.forEach(function(t){ t.x -= speed * 0.25 * dt; if (t.x < -30) { t.x = W + 20; t.y = 20 + Math.random() * 90; } });
+
+    for (var j = 0; j < obstacles.length; j++) {
+      var o = obstacles[j], pad = 5;
+      if (player.x + player.w - pad > o.x + pad && player.x + pad < o.x + o.w - pad &&
+          player.y + player.h - pad > GROUND - o.h + pad) {
+        state = 'over';
+        overAt = performance.now();
+        if (score > hi) { hi = score; try { localStorage.setItem('rosh-hi', String(hi)); } catch (e) {} }
+        return;
+      }
+    }
+  }
+
+  function draw(){
+    if (!col.bg) readColors();
+    ctx.fillStyle = col.bg;
+    ctx.fillRect(0, 0, W, H);
+
+    ctx.font = '12px "JetBrains Mono", monospace';
+    ctx.textBaseline = 'middle';
+    if (tokens) { ctx.fillStyle = col.line; tokens.forEach(function(t){ ctx.fillText(t.t, t.x, t.y); }); }
+
+    ctx.strokeStyle = col.line; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(0, GROUND + 1); ctx.lineTo(W, GROUND + 1); ctx.stroke();
+    ctx.setLineDash([6, 10]); ctx.lineDashOffset = -(dist || 0);
+    ctx.beginPath(); ctx.moveTo(0, GROUND + 14); ctx.lineTo(W, GROUND + 14); ctx.stroke();
+    ctx.setLineDash([]);
+
+    if (player) {
+      ctx.fillStyle = col.me;
+      ctx.fillRect(player.x, player.y, player.w, player.h);
+      ctx.fillStyle = '#04141A';
+      ctx.fillRect(player.x + 17, player.y + 8, 4, 4);
+      ctx.fillRect(player.x + 17, player.y + 20, 8, 2);
+    }
+    if (obstacles) obstacles.forEach(function(o){
+      ctx.fillStyle = col.bug;
+      ctx.fillRect(o.x, GROUND - o.h, o.w, o.h);
+      ctx.fillStyle = '#1a0b10';
+      ctx.fillText('×', o.x + o.w / 2 - 4, GROUND - o.h / 2);
+    });
+
+    ctx.textAlign = 'right';
+    ctx.fillStyle = col.soft;
+    ctx.fillText('HI ' + pad(hi) + '   ' + pad(score || 0), W - 14, 18);
+    ctx.textAlign = 'center';
+    if (state === 'ready') { ctx.fillStyle = col.ink; ctx.fillText('click here, then press space to start', W / 2, H / 2 - 10); }
+    if (state === 'over') {
+      ctx.fillStyle = col.bug; ctx.fillText('bug found. game over', W / 2, H / 2 - 18);
+      ctx.fillStyle = col.ink; ctx.fillText('press space or tap to retry', W / 2, H / 2 + 4);
+    }
+    ctx.textAlign = 'left';
+  }
+  function pad(n){ n = String(n); while (n.length < 5) n = '0' + n; return n; }
+
+  function loop(t){
+    cancelAnimationFrame(raf);
+    if (state !== 'running' || !visible || document.hidden) return;
+    t = t || performance.now();
+    var dt = Math.min(2.5, (t - last) / 16.667);
+    last = t;
+    update(dt);
+    draw();
+    raf = requestAnimationFrame(loop);
+  }
+
+  c.addEventListener('pointerdown', function(e){ e.preventDefault(); c.focus({preventScroll:true}); jump(); });
+  c.addEventListener('keydown', function(e){
+    if (e.code === 'Space' || e.code === 'ArrowUp' || e.key === 'w') { e.preventDefault(); jump(); }
+  });
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function(entries){
+      visible = entries[0].isIntersecting;
+      if (visible && state === 'running') { last = performance.now(); loop(); }
+    }, { threshold: 0.2 }).observe(c);
+  } else { visible = true; }
+  document.addEventListener('visibilitychange', function(){ if (!document.hidden && state === 'running') { last = performance.now(); loop(); } });
+  window.addEventListener('resize', size);
+  new MutationObserver(function(){ readColors(); draw(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  readColors();
+  reset();
+  size();
 })();
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
