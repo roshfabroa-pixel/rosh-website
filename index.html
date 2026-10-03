@@ -1125,6 +1125,28 @@
   .game-hint{margin:12px 0 0;font-size:.82rem;color:var(--ink-faint);}
   .game-hint kbd{font-family:var(--mono);font-size:.78rem;border:1px solid var(--line);padding:1px 6px;color:var(--ink-soft);}
 
+
+  /* ---------- mobile menu ---------- */
+  .menu-btn{display:none;}
+  @media (max-width:640px){
+    .menu-btn{
+      display:inline-flex;align-items:center;gap:8px;margin-left:auto;flex-shrink:0;
+      font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+      padding:9px 14px;background:transparent;color:var(--ink);border:1px solid var(--line);cursor:pointer;
+    }
+    .menu-btn::before{content:"☰";font-size:14px;}
+    .menu-btn[aria-expanded="true"]::before{content:"✕";}
+    .brand-text{display:inline;}
+    .navlinks{
+      display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;
+      overflow:visible;background:var(--bg);border-bottom:1px solid var(--line);padding:6px 0 10px;
+    }
+    .navlinks.open{display:flex;}
+    .navlinks a,.navlinks a:hover{display:block;padding:15px 20px;font-size:14px;border-top:none;border-left:3px solid transparent;border-radius:0;}
+    .navlinks a.active{border-left-color:var(--amber);}
+    .navlinks span{display:inline;}
+  }
+
   /* ---------- small-phone tightening ---------- */
   @media (max-width:380px){
     .wrap{padding-inline:16px;}
@@ -1151,7 +1173,7 @@
 <a class="skip" href="#story">Skip to content</a>
 <nav class="topnav">
   <a class="brand" href="#top"><span class="brand-text">Roshwel Arch Fabroa</span></a>
-  <ul class="navlinks">
+  <ul class="navlinks" id="navlinks">
     <li><a href="#story" data-nav>about.md</a></li>
     <li><a href="#life" data-nav>skills.json</a></li>
     <li><a href="#hire" data-nav>services.ts</a></li>
@@ -1159,6 +1181,7 @@
     <li><a href="#contact" data-nav>contact.sh</a></li>
   </ul>
   <a class="nav-cta" href="#contact">Hire me →</a>
+  <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="navlinks">Menu</button>
   <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark or light theme">☀︎</button>
 </nav>
 
@@ -1660,6 +1683,21 @@
   window.addEventListener('load', buildGutter);
   window.addEventListener('resize', buildGutter);
   if ('ResizeObserver' in window) new ResizeObserver(buildGutter).observe(document.body);
+
+  // mobile menu
+  var menuBtn = document.getElementById('menu-btn');
+  var navList = document.getElementById('navlinks');
+  function setMenu(open){
+    if (!menuBtn || !navList) return;
+    navList.classList.toggle('open', open);
+    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  if (menuBtn) {
+    menuBtn.addEventListener('click', function(e){ e.stopPropagation(); setMenu(menuBtn.getAttribute('aria-expanded') !== 'true'); });
+    navList.addEventListener('click', function(e){ if (e.target.closest('a')) setMenu(false); });
+    document.addEventListener('click', function(e){ if (!e.target.closest('.topnav')) setMenu(false); });
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape') setMenu(false); });
+  }
 
   // theme toggle
   var themeBtn = document.getElementById('theme-toggle');
