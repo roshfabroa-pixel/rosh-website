@@ -979,6 +979,59 @@
   ::selection{background:var(--amber);color:#04141A;}
   .marquee-track span i{color:var(--teal);}
 
+
+  /* ---------- terminal loader ---------- */
+  .loader{align-items:center;justify-content:center;cursor:pointer;}
+  .loader-term{font-family:"JetBrains Mono", monospace;font-size:clamp(12px,1.5vw,15px);color:#A8B3BF;line-height:2;width:min(92vw,520px);}
+  .loader-term .ok{color:#4DF0A0;}
+  .loader-term .hint{display:block;margin-top:14px;font-size:11px;color:#5E6B78;letter-spacing:.06em;}
+  .loader-term .ln{white-space:pre;}
+
+  /* ---------- hero terminal card ---------- */
+  .term{
+    position:absolute;right:20px;bottom:72px;width:330px;z-index:3;
+    background:rgba(7,9,12,.72);backdrop-filter:blur(8px);
+    border:1px solid rgba(230,237,243,.18);
+    font-family:"JetBrains Mono", monospace;font-size:12px;line-height:1.7;color:#A8B3BF;
+  }
+  .term-bar{display:flex;gap:6px;padding:9px 12px;border-bottom:1px solid rgba(230,237,243,.12);}
+  .term-bar i{width:8px;height:8px;border-radius:50%;background:rgba(230,237,243,.25);}
+  .term-body{padding:14px 16px 16px;}
+  .term-body .p{color:#4DF0A0;}
+  .term-body .k{color:#7BE8FF;}
+  .term-body pre{margin:6px 0 10px;white-space:pre-wrap;font:inherit;color:#E6EDF3;}
+  @media (max-width:1100px){ .term{display:none;} }
+
+  /* ---------- progress / back to top / mobile cta ---------- */
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--amber);z-index:260;}
+  .to-top{
+    position:fixed;right:20px;bottom:20px;z-index:60;width:42px;height:42px;
+    background:var(--bg-panel);color:var(--ink);border:1px solid var(--line);cursor:pointer;font-size:16px;
+    opacity:0;pointer-events:none;transition:opacity .25s ease,border-color .2s ease;
+  }
+  .to-top.show{opacity:1;pointer-events:auto;}
+  .to-top:hover{border-color:var(--amber);color:var(--amber);}
+  .m-cta{
+    display:none;position:fixed;left:16px;right:16px;bottom:calc(14px + env(safe-area-inset-bottom, 0px));z-index:70;
+    text-align:center;text-decoration:none;font-family:"JetBrains Mono", monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+    padding:15px;background:var(--amber);color:#04141A;
+    transform:translateY(140%);transition:transform .3s ease;
+  }
+  .m-cta.show{transform:none;}
+  @media (max-width:640px){ .m-cta{display:block;} .to-top{display:none;} footer{padding-bottom:calc(88px + env(safe-area-inset-bottom, 0px));} }
+
+  /* ---------- faq ---------- */
+  .faq{margin-top:28px;border-top:1px solid var(--line);}
+  .faq details{border-bottom:1px solid var(--line);}
+  .faq summary{
+    list-style:none;cursor:pointer;padding:22px 0;display:flex;justify-content:space-between;gap:20px;
+    font-size:1.15rem;text-transform:uppercase;letter-spacing:-.01em;font-weight:500;
+  }
+  .faq summary::-webkit-details-marker{display:none;}
+  .faq summary::after{content:"+";font-family:"JetBrains Mono", monospace;color:var(--amber);}
+  .faq details[open] summary::after{content:"–";}
+  .faq details p{margin:0 0 22px;max-width:62ch;color:var(--ink-soft);line-height:1.65;}
+
   /* ---------- small-phone tightening ---------- */
   @media (max-width:380px){
     .wrap{padding-inline:16px;}
@@ -1001,6 +1054,7 @@
   })();
 </script>
 
+<div class="progress" id="progress" aria-hidden="true"></div>
 <a class="skip" href="#story">Skip to content</a>
 <nav class="topnav">
   <a class="brand" href="#top"><span class="brand-text">Roshwel Arch Fabroa</span></a>
@@ -1022,6 +1076,23 @@
     <p class="eyebrow">Virtual Assistant · Tech Support · Philippines</p>
     <h1 class="hero">Roshwel<br>Arch Fabroa</h1>
     <p class="subhead"><span id="typewriter"></span><span class="type-cursor"></span></p>
+    <div class="term" aria-hidden="true">
+      <div class="term-bar"><i></i><i></i><i></i></div>
+      <div class="term-body">
+        <div><span class="p">$</span> whoami</div>
+        <pre>Roshwel Arch Fabroa</pre>
+        <div><span class="p">$</span> cat status.json</div>
+        <pre>{
+  <span class="k">"role"</span>: "Virtual Assistant",
+  <span class="k">"focus"</span>: "Tech support",
+  <span class="k">"clients"</span>: 28,
+  <span class="k">"location"</span>: "Philippines",
+  <span class="k">"remote"</span>: true,
+  <span class="k">"status"</span>: "available"
+}</pre>
+        <div><span class="p">$</span> <span class="type-cursor" style="background:#4DF0A0"></span></div>
+      </div>
+    </div>
     <div class="hud" aria-label="Status">
       <span class="on"><b>Status:</b> Available</span>
       <span><b>Loc:</b> Philippines</span>
@@ -1179,6 +1250,15 @@
       <li><span class="step">04</span><h4>Report</h4><p>You get regular updates, and I adjust as your needs change.</p></li>
     </ol>
 
+    <h3 class="section-kicker process-head">FAQ</h3>
+    <div class="faq">
+      <details><summary>What can you help with?</summary><p>Inbox and calendar management, tech troubleshooting and setup, data entry and admin support, and customer support by chat or email.</p></details>
+      <details><summary>Which tools do you use?</summary><p>Google Workspace, Microsoft 365, Slack, Zoom, Trello, Asana, Zendesk and more. See the full list under Skills. If you use something else, tell me and I'll pick it up.</p></details>
+      <details><summary>How do hours and rates work?</summary><p>They depend on the scope of the work. Message me with what you need and I'll send a quote.</p></details>
+      <details><summary>Where are you based?</summary><p>In the Philippines (UTC+8), working remotely.</p></details>
+      <details><summary>How do we get started?</summary><p>Send a message through the contact form, WhatsApp or LinkedIn. I'll confirm the scope, send a quote, and we start once you agree.</p></details>
+    </div>
+
     <div class="hire-cta">
       <p>Rates depend on scope and hours — message me with what you need and I'll send a quote.</p>
       <div class="links">
@@ -1273,6 +1353,9 @@
 
 <footer>© 2026 Roshwel Arch Fabroa</footer>
 
+<button class="to-top" id="to-top" type="button" aria-label="Back to top">↑</button>
+<a class="m-cta" id="m-cta" href="#contact">Message me</a>
+
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" id="lightbox-close" aria-label="Close">✕</button>
   <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Previous photo">‹</button>
@@ -1283,7 +1366,7 @@
 
 <script>
 (function(){
-  // intro loader (first visit per session, skipped for reduced motion)
+  // terminal intro loader (once per session; skipped for reduced motion)
   try {
     var skipLoader = (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) || sessionStorage.getItem('rosh-intro');
     if (!skipLoader) {
@@ -1291,17 +1374,50 @@
       var ld = document.createElement('div');
       ld.className = 'loader';
       ld.setAttribute('aria-hidden', 'true');
-      ld.innerHTML = '<div class="loader-pill"><span>Loading</span><span class="loader-bar"><i></i></span><span class="loader-pct">0%</span></div>';
+      ld.innerHTML = '<div class="loader-term"></div>';
       document.body.appendChild(ld);
-      var fill = ld.querySelector('i'), pct = ld.querySelector('.loader-pct'), t0 = Date.now(), dur = 1100;
-      (function step(){
-        var p = Math.min(1, (Date.now() - t0) / dur);
-        fill.style.width = (p * 100) + '%';
-        pct.textContent = Math.round(p * 100) + '%';
-        if (p < 1) { requestAnimationFrame(step); }
-        else { ld.classList.add('done'); setTimeout(function(){ ld.remove(); }, 600); }
-      })();
-      setTimeout(function(){ ld.remove(); }, 4000);
+      var term = ld.querySelector('.loader-term');
+      var lines = [
+        ['> starting portfolio...', ''],
+        ['> loading skills ............ ', 'ok'],
+        ['> loading tools ............. ', 'ok'],
+        ['> connecting to Philippines . ', 'ok']
+      ];
+      var closed = false;
+      var closeLoader = function(){
+        if (closed) return;
+        closed = true;
+        ld.classList.add('done');
+        setTimeout(function(){ ld.remove(); }, 600);
+      };
+      ld.addEventListener('click', closeLoader);
+      document.addEventListener('keydown', closeLoader, {once:true});
+      var li = 0;
+      var addLine = function(){
+        if (closed) return;
+        if (li >= lines.length) {
+          var h = document.createElement('span');
+          h.className = 'hint';
+          h.textContent = 'click or press any key to skip';
+          term.appendChild(h);
+          setTimeout(closeLoader, 500);
+          return;
+        }
+        var row = document.createElement('div');
+        row.className = 'ln';
+        row.textContent = lines[li][0];
+        if (lines[li][1]) {
+          var ok = document.createElement('span');
+          ok.className = 'ok';
+          ok.textContent = lines[li][1];
+          row.appendChild(ok);
+        }
+        term.appendChild(row);
+        li++;
+        setTimeout(addLine, 260);
+      };
+      addLine();
+      setTimeout(closeLoader, 4000);
     }
   } catch (e) {}
 
@@ -1323,6 +1439,25 @@
       glow.style.setProperty('--my', e.clientY + 'px');
     }, {passive:true});
   }
+
+  // scroll progress, back to top, mobile CTA
+  var bar = document.getElementById('progress');
+  var topBtn = document.getElementById('to-top');
+  var mcta = document.getElementById('m-cta');
+  var contactSec = document.getElementById('contact');
+  function onScroll(){
+    var y = window.scrollY || document.documentElement.scrollTop;
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    if (bar) bar.style.width = (h > 0 ? Math.min(100, y / h * 100) : 0) + '%';
+    if (topBtn) topBtn.classList.toggle('show', y > 900);
+    if (mcta) {
+      var nearContact = contactSec && contactSec.getBoundingClientRect().top < window.innerHeight * 0.7;
+      mcta.classList.toggle('show', y > 500 && !nearContact);
+    }
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+  if (topBtn) topBtn.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
 
   // theme toggle
   var themeBtn = document.getElementById('theme-toggle');
