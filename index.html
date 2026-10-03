@@ -872,6 +872,11 @@
   .contact-note{margin:0;font-size:.82rem;color:var(--ink-faint);}
   .contact-note.ok{color:var(--teal-strong);}
   .contact-note.err{color:#E5766B;}
+  .cf-thanks{margin-top:32px;padding-top:28px;border-top:1px solid var(--line);max-width:640px;outline:none;}
+  .cf-thanks[hidden],.contact-form[hidden]{display:none;}
+  .cf-thanks h4{margin:0 0 10px;font-family:"Space Grotesk", ui-sans-serif, system-ui, sans-serif;font-weight:500;text-transform:uppercase;font-size:clamp(1.4rem,2.6vw,2rem);letter-spacing:-.02em;}
+  .cf-thanks p{color:var(--ink-soft);line-height:1.6;margin:0 0 14px;}
+  .cf-thanks ol{margin:0 0 20px;padding-left:20px;color:var(--ink-soft);line-height:1.8;}
   .contact-form .pill:disabled{opacity:.6;cursor:default;}
 
 
@@ -1347,6 +1352,22 @@
         <input type="checkbox" id="cf-botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
         <p class="contact-note" id="cf-status" role="status" aria-live="polite">I usually reply by email or WhatsApp.</p>
       </form>
+
+      <div class="cf-thanks" id="cf-thanks" hidden tabindex="-1">
+        <p class="avail">Message sent</p>
+        <h4>Thanks — I got your message.</h4>
+        <p>I will read it and reply to the email you gave. While you wait, here is what happens next:</p>
+        <ol>
+          <li>I review what you need.</li>
+          <li>I reply with questions or a quote.</li>
+          <li>We agree on scope and start.</li>
+        </ol>
+        <div class="links">
+          <a class="pill" href="https://wa.me/qr/ABJ56K4BOL6LD1" target="_blank" rel="noopener"><span class="dot"></span>Message me on WhatsApp</a>
+          <a class="pill" href="https://www.linkedin.com/in/roshfabroa/" target="_blank" rel="noopener"><span class="dot"></span>Connect on LinkedIn</a>
+          <button class="pill" type="button" id="cf-again"><span class="dot"></span>Send another</button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1687,14 +1708,25 @@
       .then(function(data){
         if (!data.success) throw new Error('failed');
         cf.reset();
-        st.className = 'contact-note ok';
-        st.textContent = 'Thanks — your message was sent. I will reply soon.';
+        st.className = 'contact-note';
+        st.textContent = '';
+        var th = document.getElementById('cf-thanks');
+        cf.hidden = true;
+        th.hidden = false;
+        th.focus();
       })
       .catch(function(){
         st.className = 'contact-note err';
         st.textContent = 'Could not send right now. Please message me on WhatsApp or email roshfabroa@gmail.com.';
       })
       .finally(function(){ btn.disabled = false; });
+  });
+
+  var again = document.getElementById('cf-again');
+  if (again) again.addEventListener('click', function(){
+    document.getElementById('cf-thanks').hidden = true;
+    cf.hidden = false;
+    document.getElementById('cf-name').focus();
   });
 
   // email copy
