@@ -1438,10 +1438,10 @@
 <section id="play">
   <div class="wrap reveal">
     <p class="section-kicker">05 — Take a break</p>
-    <h2 class="section-title">Bug runner</h2>
-    <p class="bio">Fixing bugs is my job. Dodging them is a game. See how far you can get.</p>
+    <h2 class="section-title">Coffee runner</h2>
+    <p class="bio">Coffee is half my job. Hot mugs everywhere, so keep jumping. See how far you can get.</p>
     <div class="game-wrap">
-      <canvas id="game" tabindex="0" role="img" aria-label="Bug runner game. Click the game, then press space or the up arrow to jump over the bugs."></canvas>
+      <canvas id="game" tabindex="0" role="img" aria-label="Coffee runner game. Click the game, then press space or the up arrow to jump over the coffee mugs."></canvas>
     </div>
     <p class="game-hint">Click or tap the game to start. Jump with <kbd>Space</kbd> or <kbd>↑</kbd>, or tap.</p>
   </div>
@@ -2060,10 +2060,33 @@
       ctx.fillRect(player.x + 17, player.y + 20, 8, 2);
     }
     if (obstacles) obstacles.forEach(function(o){
+      var bw = o.w - 7, top = GROUND - o.h, hx = o.x + bw;
+      // handle
+      ctx.strokeStyle = '#E8D5B7'; ctx.lineWidth = 3;
+      ctx.strokeRect(hx - 1, top + o.h * 0.22, 7, o.h * 0.42);
+      // mug body
+      ctx.fillStyle = '#E8D5B7';
+      ctx.fillRect(o.x, top, bw, o.h);
+      // coffee surface
+      ctx.fillStyle = '#5A3A24';
+      ctx.fillRect(o.x + 3, top + 3, bw - 6, 5);
+      // band
       ctx.fillStyle = col.bug;
-      ctx.fillRect(o.x, GROUND - o.h, o.w, o.h);
-      ctx.fillStyle = '#1a0b10';
-      ctx.fillText('×', o.x + o.w / 2 - 4, GROUND - o.h / 2);
+      ctx.fillRect(o.x, top + o.h * 0.55, bw, 4);
+      // outline
+      ctx.strokeStyle = col.line; ctx.lineWidth = 1;
+      ctx.strokeRect(o.x + .5, top + .5, bw - 1, o.h - 1);
+      // steam
+      ctx.strokeStyle = col.soft; ctx.lineWidth = 2;
+      var ph = (dist || 0) / 14;
+      for (var k = 0; k < 2; k++) {
+        var sx = o.x + 6 + k * (bw - 12);
+        ctx.beginPath();
+        ctx.moveTo(sx, top - 3);
+        ctx.quadraticCurveTo(sx + 4 * Math.sin(ph + k), top - 9, sx, top - 14);
+        ctx.quadraticCurveTo(sx - 4 * Math.sin(ph + k), top - 19, sx, top - 24);
+        ctx.stroke();
+      }
     });
 
     ctx.textAlign = 'right';
@@ -2072,7 +2095,7 @@
     ctx.textAlign = 'center';
     if (state === 'ready') { ctx.fillStyle = col.ink; ctx.fillText('click here, then press space to start', W / 2, H / 2 - 10); }
     if (state === 'over') {
-      ctx.fillStyle = col.bug; ctx.fillText('bug found. game over', W / 2, H / 2 - 18);
+      ctx.fillStyle = col.bug; ctx.fillText('spilled! game over', W / 2, H / 2 - 18);
       ctx.fillStyle = col.ink; ctx.fillText('press space or tap to retry', W / 2, H / 2 + 4);
     }
     ctx.textAlign = 'left';
